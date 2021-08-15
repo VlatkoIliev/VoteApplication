@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <script th:replace="fragments/header::headElement"></script>
+    <title>Dashboard page</title>
+    
+     <style>
+      .container {
+        width: 60%;
+      }
+    
+    </style>
+</head>
+<body>
+    <div th:replace="fragments/header::header"></div>
+	<div class="container" style="margin-top: 1.5em">
+	  <div class="row">
+	    <div class="col-8">
+	      <h1>Vote app Dashboard</h1>
+	    </div>
+	    <!-- <div class="col-4">
+		    <form action="/logout" method="post" class="float-end">
+		       <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+		       <button type="submit" class="btn btn-lg btn-secondary">logout</button>
+		    </form>
+	    </div> -->
+	  </div>
+	  
+	  <div class="card" th:each="product : ${products}" style="margin: 1em 0em">
+		 <!--  <div class="card-header" th:text="${product.name}">
+		    Featured
+		  </div> -->
+		  <div class="card-body">
+		    <h5 class="card-title" th:text="${product.name}">Special title treatment</h5>
+		    <h6 class="card-subtitle mb-2 text-muted" th:text="${product.published ? 'Published' : 'Not published'}">Card subtitle</h6>
+		    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+		    <a th:href="@{/products/{productId}(productId=${product.id})}" class="btn btn-primary">Edit</a>
+		    <a th:href="@{/p/{productName}(productName=${product.name})}" class="btn btn-primary">View Feature Requests</a>
+		    
+		  </div>
+	 </div>
+
+         <!--  <div class="p-5 mb-4 bg-light rounded-3">
+				<div th:if="${products != null}">
+				  <div class="row">
+				    <div class="col" style="margin-top: -1em">
+				      <h2>Products</h2>
+				    </div>
+				  </div>
+			      <div class="row" th:each="product : ${products}">
+				      <div th:text="${product.name}"></div>
+				     <div class="col">
+				       <a th:href="@{/products/{productId}(productId=${product.id})}" th:text="${product.name}"></a>
+				     </div>
+				  </div>
+				</div>
+          </div> -->
+
+
+     <div class="row">
+       <div class="col">
+         <form action="/products" method="post">
+     	  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+	      <button class="btn btn-primary" id="createProduct">Create a product</button>
+         </form>
+      </div>
+    </div>
+</div>
+</body>
+</html>

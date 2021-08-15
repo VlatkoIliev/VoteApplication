@@ -1,24 +1,43 @@
 package com.VoteApplication.domain;
 
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Feature {
 	
-	private long id;
+	private Long id;
 	private String title;
 	private String description;
 	private String status;
+	private Product product;
+	private User user;
+	private SortedSet<Comment> comments = new TreeSet<>();
+	
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getTitle() {
@@ -38,6 +57,30 @@ public class Feature {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	@ManyToOne
+	public Product getProduct() {
+		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+	@ManyToOne
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY, mappedBy="feature")
+	@OrderBy("createdAt, id")
+	public SortedSet<Comment> getComments() {
+		return comments;
+	}
+	public void setComments(SortedSet<Comment> comments) {
+		this.comments = comments;
 	}
 	
 	

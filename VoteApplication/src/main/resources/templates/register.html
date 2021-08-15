@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<title>Register page</title>
+<script th:replace="fragments/header::headElement"></script>
+<script type="text/javascript">
+	  $(function() {
+		  $("#back").click(function( ){
+			  window.location.href="/login";
+		  });
+	  });
+  </script>
+</head>
+<body>
+<div th:replace="fragments/header::header"></div>
+ <div class="container">
+    <div class="card" style="margin-top: 1.5rem">
+      <div class="card-header"><h2>Register for an account</h2></div>
+      <div class="card-body">
+			<form action="" method="post">
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+			
+			<div class="mb-3 row">
+			  <label for="name" class="col-12 col-sm-3 col-md-2 col-form-label">Name:</label>
+			  <div class="col-12 col-sm-9 col-md-10">
+				  <input type="text" class="form-control" th:field="${user.name}"/>
+			  </div>
+			</div>
+			<div class="mb-3 row">
+			  <label for="username" class="col-12 col-sm-3 col-md-2 col-form-label">Email Address:</label>
+			  <div class="col-12 col-sm-9 col-md-10">
+				  <input type="text" class="form-control" th:field="${user.username}"/>
+			  </div>
+			</div>
+			  
+			<div class="mb-3 row">
+			  <label for="password" class="col-12 col-sm-3 col-md-2 col-form-label">Password:</label>
+			   <div class="col-12 col-sm-9 col-md-10">
+				  <input type="password" class="form-control" th:field="${user.password}"/>
+			  </div>
+			</div>
+			<div class="mb-3 row">
+			  <label for="confirmPassword" class="col-12 col-sm-3 col-md-2 col-form-label">Confirm Password:</label>
+			   <div class="col-12 col-sm-9 col-md-10">
+				  <input type="password" class="form-control" id="confirmPassword"/>
+			  </div>
+			</div>
+				<button type="submit" class="btn btn-info btn-lg" id="back">Back</button>
+				<button type="submit" class="btn btn-primary float-end btn-lg">Create account</button>
+			</form>
+			<!-- Confirm Password: <input type="password" id="confirmPassword"/><br/> -->
+	  </div>
+	</div>
+ </div>
+
+</body>
+</html>	

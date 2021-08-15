@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <script th:replace="fragments/header::headElement"></script>
+    <title>New feature</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+      .container {
+        width: 60%;
+      }
+    
+    </style>
+    
+    <script type="text/javascript">
+      $(function() {
+    	  $("button[id*='replyBtn-']").click(function(){
+    		  $("form[id*='replyForm-']:not(.d-none)").each(function(){
+    		      let commentId = $(this).prop("id").split("-")[1]
+    		      let formId = "replyForm-" + commentId
+    		      
+    		      console.log(`formId: ${formId} is now being hidden`)
+    		      $("#"+formId).addClass("d-none")
+    			  
+    		  })
+    		  let commentId = $(this).prop("id").split("-")[1]
+    		  let formId = "replyForm-" + commentId
+    		  $("#"+formId).removeClass("d-none")
+    	  })
+      })  
+    
+    </script>
+</head>
+<body>
+ 
+  <div th:replace="fragments/header::header"></div>
+  <div class="container" style="margin-top: 1.5em">
+    <div class="row">
+	    <div class="col-md-6">
+	      <h1>New feature</h1>
+	    </div>
+	    <div class="col-md-6">
+	      <span class="badge bg-secondary" style="font-size:1em; margin-top:0.5em" th:text="${feature.status}"></span>
+	    </div>
+    </div>
+    
+    
+    
+    <form action="" style="margin-top: 1rem" method="post">
+     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+      <input type="hidden" th:field="${feature.id}"/>
+      <input type="hidden" th:field="${feature.product}"/>
+      <input type="hidden" th:field="${feature.status}"/>
+	    <div class="mb-3">
+	        <label for="title" class="form-label">Title:</label>
+		    <input type="text" class="form-control" th:field="${feature.title}" th:attrappend="disabled=${user.id == feature.user.id ? '' : 'disabled'}"/>
+	    </div>
+	    <div class="mb-3">
+	    	<label for="description" class="form-label">Description:</label>
+	    	<textarea class="form-control" th:field="${feature.description}" th:attrappend="disabled=${user.id == feature.user.id ? '' : 'disabled'}"></textarea>
+	    </div>
+	    <div style="margin-top: 1em;" th:if="${user.id == feature.user.id}">
+	      <button type="submit" class="btn btn-primary">Save</button>
+	    </div>
+    </form>
+	 <div style="margin-top: 2em;  margin-bottom: 3em">
+	   <h2>Comments</h2>
+	   
+       
+	   <form th:action="@{/products/{productId}/features/{featureId}/comments(productId=${feature.product.id}, featureId=${feature.id})}" method="post">
+	   <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+	    <div class="form-group" style="margin-top: 1.5em">
+	      <label for="text">Leave a comment below</label>
+	      <textarea class="form-control" th:field="${comment.text}" rows="3"></textarea>
+	    </div>
+	    <div style="margin-top: 1em">
+	      <button type="submit" class="btn btn-primary">Add comment</button>
+	    </div>
+	   </form>
+	   <hr/>
+		<div th:replace="fragments/comment::commentThread"></div>
+	 </div>   
+    
+    
+  </div>
+</body>
+</html>
